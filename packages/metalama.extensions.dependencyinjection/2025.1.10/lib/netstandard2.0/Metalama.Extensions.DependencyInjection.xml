@@ -1,0 +1,743 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Metalama.Extensions.DependencyInjection</name>
+    </assembly>
+    <members>
+        <member name="T:Metalama.Extensions.DependencyInjection.DependencyAttribute">
+            <summary>
+            Custom attribute that, when applied to a field or automatic property in user code, means that this field or property is a service dependency
+            that must be pulled from the dependency injection framework. Contrarily to <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/> that must be used
+            in aspect code, this attribute must be used in user code. 
+            </summary>
+            <remarks>
+             The implementation of this custom attribute depends on the selected dependency injection framework.
+            </remarks>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyAttribute.IsLazy">
+            <summary>
+            Gets or sets a value indicating whether the dependency should be pulled from the container lazily, i.e. upon first use.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyAttribute.IsRequired">
+            <summary>
+            Gets or sets a value indicating whether the dependency is required.
+            </summary>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.DependencyInjectionExtensions">
+            <summary>
+            Extends the <see cref="T:Metalama.Framework.Project.IProject"/> and <see cref="T:Metalama.Framework.Aspects.IAspectBuilder"/> interfaces.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.DependencyInjectionExtensions.ConfigureDependencyInjection(Metalama.Framework.Fabrics.IQuery{Metalama.Framework.Code.ICompilation},System.Action{Metalama.Extensions.DependencyInjection.DependencyInjectionOptionsBuilder})">
+            <summary>
+            Configures <c>Metalama.Extensions.DependencyInjection</c> for the current project.
+            </summary>
+            <param name="query">The <see cref="T:Metalama.Framework.Fabrics.IQuery`1"/> for current compilation.</param>
+            <param name="configure">A delegate that configures the framework.</param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.DependencyInjectionExtensions.ConfigureDependencyInjection(Metalama.Framework.Fabrics.IQuery{Metalama.Framework.Code.INamedType},System.Action{Metalama.Extensions.DependencyInjection.DependencyInjectionOptionsBuilder})">
+            <summary>
+            Configures <c>Metalama.Extensions.DependencyInjection</c> for a given type.
+            </summary>
+            <param name="query">The <see cref="T:Metalama.Framework.Fabrics.IQuery`1"/> for the type.</param>
+            <param name="configure">A delegate that configures the framework.</param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.DependencyInjectionExtensions.ConfigureDependencyInjection(Metalama.Framework.Fabrics.IQuery{Metalama.Framework.Code.INamespace},System.Action{Metalama.Extensions.DependencyInjection.DependencyInjectionOptionsBuilder})">
+            <summary>
+            Configures <c>Metalama.Extensions.DependencyInjection</c> for a given namespace.
+            </summary>
+            <param name="query">The <see cref="T:Metalama.Framework.Fabrics.IQuery`1"/> for the namespace.</param>
+            <param name="configure">A delegate that configures the framework.</param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.DependencyInjectionExtensions.TryIntroduceDependency(Metalama.Framework.Aspects.IAspectBuilder,Metalama.Extensions.DependencyInjection.DependencyProperties,Metalama.Framework.Code.IFieldOrProperty@)">
+            <summary>
+            Tries to introduce a dependency into a specified type. 
+            </summary>
+            <param name="aspectBuilder">An <see cref="T:Metalama.Framework.Aspects.IAspectBuilder"/>.</param>
+            <param name="properties">The properties of the dependency to introduce.</param>
+            <param name="dependencyFieldOrProperty">When the method succeeds, the field or dependency that represents the dependency.</param>
+            <returns><c>true</c> in case of success, otherwise <c>false</c>. When the field or property already exists, this method returns <c>true</c> and has no effect.</returns>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyInjectionOptionsBuilder.IsRequired">
+            <summary>
+            Sets a value indicating whether the default value for the <see cref="P:Metalama.Extensions.DependencyInjection.DependencyAttribute.IsRequired"/> property of <see cref="T:Metalama.Extensions.DependencyInjection.DependencyAttribute"/> and <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/>.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyInjectionOptionsBuilder.IsLazy">
+            <summary>
+            Sets a value indicating whether the default value for the <see cref="P:Metalama.Extensions.DependencyInjection.DependencyAttribute.IsLazy"/> property of <see cref="T:Metalama.Extensions.DependencyInjection.DependencyAttribute"/> and <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/>.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyInjectionOptionsBuilder.Selector">
+            <summary>
+            Sets a delegate that is called when several dependency injection frameworks have been registered
+            for the current project and many vote to handle a given dependency. The default implementation is to return
+            the first framework in the array.
+            </summary>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.DependencyProperties">
+            <summary>
+            Specifications of an introduced dependency. 
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.DependencyProperties.#ctor(Metalama.Framework.Code.INamedType,Metalama.Framework.Code.IType,System.String,System.Boolean,System.Nullable{System.Boolean},System.Nullable{System.Boolean},Metalama.Framework.Code.DeclarationKind)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Metalama.Extensions.DependencyInjection.DependencyProperties"/> class. This overload excepts the dependency type as an <see cref="T:Metalama.Framework.Code.IType"/>.
+            </summary>
+            <param name="targetType">The type into which the dependency should be introduced.</param>
+            <param name="dependencyType">The type of the dependency.</param>
+            <param name="name">The name of the field or property that should expose the property.</param>
+            <param name="isStatic">Indicates whether the dependency field or property should be static.</param>
+            <param name="isRequired">Indicates whether the dependency is required. When this parameter is set to <c>false</c>, the code will accept missing dependencies.</param>
+            <param name="isLazy">Indicates whether the dependency should be lazily resolved upon first use. Whe this parameter is set to <c>false</c>, the dependency is resolved upon object construction.</param>
+            <param name="kind">Either <see cref="F:Metalama.Framework.Code.DeclarationKind.Property"/> or <see cref="F:Metalama.Framework.Code.DeclarationKind.Field"/>.</param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.DependencyProperties.#ctor(Metalama.Framework.Code.INamedType,System.Type,System.String,System.Boolean,System.Nullable{System.Boolean},System.Nullable{System.Boolean},Metalama.Framework.Code.DeclarationKind)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Metalama.Extensions.DependencyInjection.DependencyProperties"/> class. This overload excepts the dependency type as a <see cref="T:System.Type"/>.
+            </summary>
+            <param name="targetType">The type into which the dependency should be introduced.</param>
+            <param name="dependencyType">The type of the dependency.</param>
+            <param name="name">The name of the field or property that should expose the property.</param>
+            <param name="isStatic">Indicates whether the dependency field or property should be static.</param>
+            <param name="isRequired">Indicates whether the dependency is required. When this parameter is set to <c>false</c>, the code will accept missing dependencies.</param>
+            <param name="isLazy">Indicates whether the dependency should be lazily resolved upon first use. Whe this parameter is set to <c>false</c>, the dependency is resolved upon object construction.</param>
+            <param name="kind">Either <see cref="F:Metalama.Framework.Code.DeclarationKind.Property"/> or <see cref="F:Metalama.Framework.Code.DeclarationKind.Field"/>.</param>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyProperties.IsRequired">
+            <summary>
+            Gets a value indicating whether the dependency is required. When this property is set to <c>false</c>, the code will accept missing dependencies.
+            The default value, when this property is neither specified nor overwritten, is <c>true</c>. 
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyProperties.IsLazy">
+            <summary>
+            Gets a value indicating whether the dependency should be resolved lazily upon first use.
+            The default value, when this property is neither specified nor overwritten, is <c>false</c>.  
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyProperties.Options">
+            <summary>
+            Gets the options set by the options framework.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyProperties.TargetType">
+            <summary>
+            Gets the type into which the dependency should be injected.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyProperties.DependencyType">
+            <summary>
+            Gets the dependency type.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyProperties.Name">
+            <summary>
+            Gets the name of the field or property that should expose the dependency.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyProperties.IsStatic">
+            <summary>
+            Gets a value indicating whether the dependency field or property is static.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.DependencyProperties.Kind">
+            <summary>
+            Gets the kind of declaration to introduce i.e. <see cref="F:Metalama.Framework.Code.DeclarationKind.Field"/> or <see cref="F:Metalama.Framework.Code.DeclarationKind.Property"/>.
+            </summary>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.IDependencyInjectionFrameworkSelector">
+            <summary>
+            Exposes a method <see cref="M:Metalama.Extensions.DependencyInjection.IDependencyInjectionFrameworkSelector.SelectFramework(Metalama.Extensions.DependencyInjection.DependencyProperties,System.Collections.Immutable.ImmutableArray{Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework})"/> that gets called when there are many candidate frameworks for a dependency.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.IDependencyInjectionFrameworkSelector.SelectFramework(Metalama.Extensions.DependencyInjection.DependencyProperties,System.Collections.Immutable.ImmutableArray{Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework})">
+            <summary>
+            Selects the <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework"/> that should handle a given dependency.
+            </summary>
+            <param name="properties">The properties of this dependencies.</param>
+            <param name="eligibleFrameworks">The list of frameworks that are eligible for this dependency.</param>
+            <returns>The selected dependency.</returns>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionFramework">
+            <summary>
+            The default implementation of <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework"/>. It pulls dependencies from all constructors and use <see cref="T:System.Func`1"/>
+            to accept lazy dependencies.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionFramework.CanHandleDependency(Metalama.Extensions.DependencyInjection.DependencyProperties,Metalama.Framework.Diagnostics.ScopedDiagnosticSink@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionFramework.IntroduceDependency(Metalama.Extensions.DependencyInjection.DependencyProperties,Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType})">
+            <inheritdoc />
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionFramework.TryImplementDependency(Metalama.Extensions.DependencyInjection.DependencyProperties,Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.IFieldOrProperty})">
+            <inheritdoc />
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionFramework.GetStrategy(Metalama.Extensions.DependencyInjection.DependencyProperties)">
+            <summary>
+            Gets an instance of the <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy"/> class for a given context.
+            </summary>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy">
+            <summary>
+            The default implementation of the <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework.IntroduceDependency(Metalama.Extensions.DependencyInjection.DependencyProperties,Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType})"/> interface method. It is designed
+            to be easily extended and overwritten.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.Properties">
+            <summary>
+            Gets the <see cref="T:Metalama.Extensions.DependencyInjection.DependencyProperties"/> for which the current object was created.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.#ctor(Metalama.Extensions.DependencyInjection.DependencyProperties)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy"/> class.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.TryIntroduceFieldOrProperty(Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType},Metalama.Framework.Code.IFieldOrProperty@,Metalama.Framework.Advising.AdviceOutcome@)">
+            <summary>
+            Introduces the field or property into the target class.
+            </summary>
+            <param name="adviser">An <see cref="T:Metalama.Framework.Aspects.IAspectBuilder`1"/> for the target class.</param>
+            <param name="introducedFieldOrProperty">At output, the created field or property.</param>
+            <param name="outcome"></param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.IntroduceDependency(Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType})">
+            <summary>
+            The entry point of the <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy"/>. Orchestrates all steps: first calls <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.TryIntroduceFieldOrProperty(Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType},Metalama.Framework.Code.IFieldOrProperty@,Metalama.Framework.Advising.AdviceOutcome@)"/>,
+            then <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.GetPullStrategy(Metalama.Framework.Code.IFieldOrProperty)"/>, then <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.TryPullDependency(Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType},Metalama.Framework.Code.IFieldOrProperty,Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy)"/>.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.GetConstructors(Metalama.Framework.Code.INamedType)">
+            <summary>
+            Gets the constructors that are modified by <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.TryPullDependency(Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType},Metalama.Framework.Code.IFieldOrProperty,Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy)"/>.
+            </summary>
+            <param name="type">The type in which the dependency is being injected.</param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.SuppressNonNullableFieldMustContainValue(Metalama.Framework.Advising.IAdviser,Metalama.Framework.Code.IFieldOrProperty)">
+            <summary>
+            Suppresses the warning CS8618 ("Non-nullable variable must contain a non-null value when exiting constructor.") for a member that is being introduced,
+            if necessary. This is useful for design-time diagnostics.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.TryPullDependency(Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType},Metalama.Framework.Code.IFieldOrProperty,Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy)">
+            <summary>
+            Pulls the dependency from all constructors, i.e. introduce a parameter to these constructors (according to an <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy"/>), and
+            assigns its value to the dependency property.
+            </summary>
+            <param name="adviser">An <see cref="T:Metalama.Framework.Aspects.IAspectBuilder`1"/> for the target type.</param>
+            <param name="dependencyFieldOrProperty">The field or property that exposed the dependency.</param>
+            <param name="pullStrategy">A pull strategy (typically the one returned by <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.GetPullStrategy(Metalama.Framework.Code.IFieldOrProperty)"/>).</param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.TryPullDependency(Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.IConstructor},Metalama.Framework.Code.IFieldOrProperty,Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy)">
+            <summary>
+            Pulls the dependency from a given constructor.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.GetPullStrategy(Metalama.Framework.Code.IFieldOrProperty)">
+            <summary>
+            Gets an <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy"/>, i.e. a strategy to pull a dependency field or property from constructors.
+            </summary>
+            <param name="introducedFieldOrProperty">The value returned by <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.TryIntroduceFieldOrProperty(Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType},Metalama.Framework.Code.IFieldOrProperty@,Metalama.Framework.Advising.AdviceOutcome@)"/>.</param>
+            <returns>The <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy"/>.</returns>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy">
+            <summary>
+            The default implementation of <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy"/>.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.#ctor(Metalama.Extensions.DependencyInjection.DependencyProperties,Metalama.Framework.Code.IFieldOrProperty)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy"/> class.
+            </summary>
+            <param name="properties">The context information for the introduced dependency.</param>
+            <param name="introducedFieldOrProperty">The dependency field or property in the target type.</param>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.Properties">
+            <summary>
+            Gets the <see cref="T:Metalama.Extensions.DependencyInjection.DependencyProperties"/>.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.IntroducedFieldOrProperty">
+            <summary>
+            Gets the dependency field or property in the target type. 
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.AssignedFieldOrProperty">
+            <summary>
+            Gets the field or property that must be assigned by the <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.GetAssignmentStatement(Metalama.Framework.Code.IParameter)"/> method.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.GetExistingParameter(Metalama.Framework.Code.IConstructor)">
+            <inheritdoc />
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.GetNewParameterName(Metalama.Framework.Code.IConstructor)">
+            <summary>
+            Gets the name of the new constructor parameter.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.ParameterType">
+            <summary>
+            Gets the type of the constructor parameter. This is used by both <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.GetNewParameter(Metalama.Framework.Code.IConstructor)"/> and <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.GetExistingParameter(Metalama.Framework.Code.IConstructor)"/>.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.CleanParameterName(System.String)">
+            <summary>
+            Normalizes the name of the parameter by applying naming conventions.
+            </summary>
+            <param name="parameterName">The input parameter name.</param>
+            <returns>The normalized parameter name.</returns>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.GetNewParameter(Metalama.Framework.Code.IConstructor)">
+            <inheritdoc />
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.PullParameter(Metalama.Framework.Code.IParameter,Metalama.Framework.Code.IConstructor)">
+            <inheritdoc />
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy.GetAssignmentStatement(Metalama.Framework.Code.IParameter)">
+            <inheritdoc />
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionFrameworkRegistration">
+            <summary>
+            Represents a registration of a <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework"/>.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionFrameworkRegistration.#ctor(System.Type,System.Nullable{System.Int32})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionFrameworkRegistration"/> class.
+            </summary>
+            <param name="type">A type implementing the <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework"/> interface and having a default constructor.</param>
+            <param name="priority">The priority of the aspect framework. The default priority of system-registered frameworks is 100 and 101.
+            The default priority for user-registered frameworks is 0. 
+            </param>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionFrameworkRegistration.Type">
+            <summary>
+            Gets the framework adapter type, a type implementing the <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework"/> interface.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionFrameworkRegistration.Priority">
+            <summary>
+            Gets the priority of the framework.
+            </summary>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionOptions">
+            <summary>
+            Options that influence the processing of <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/>. To set these options, use <see cref="M:Metalama.Extensions.DependencyInjection.DependencyInjectionExtensions.ConfigureDependencyInjection(Metalama.Framework.Fabrics.IQuery{Metalama.Framework.Code.ICompilation},System.Action{Metalama.Extensions.DependencyInjection.DependencyInjectionOptionsBuilder})"/>.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionOptions.FrameworkRegistrations">
+            <summary>
+            Gets or sets the list of frameworks that can be used to implement the <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/> advice and <see cref="T:Metalama.Extensions.DependencyInjection.DependencyAttribute"/>
+            aspect.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionOptions.IsRequired">
+            <summary>
+            Gets or sets a value indicating whether the default value for the <see cref="P:Metalama.Extensions.DependencyInjection.DependencyAttribute.IsRequired"/> property of <see cref="T:Metalama.Extensions.DependencyInjection.DependencyAttribute"/> and <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/>.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionOptions.IsLazy">
+            <summary>
+            Gets or sets a value indicating whether the default value for the <see cref="P:Metalama.Extensions.DependencyInjection.DependencyAttribute.IsLazy"/> property of <see cref="T:Metalama.Extensions.DependencyInjection.DependencyAttribute"/> and <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/>.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.DependencyInjectionOptions.Selector">
+            <summary>
+            Gets or sets a delegate that is called when several dependency injection frameworks have been registered
+            for the current project and many vote to handle a given dependency. The default implementation is to return
+            the first framework in the array.
+            </summary>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework">
+            <summary>
+            Interface that dependency injection framework adapters must implement to handle the <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/> advice.
+            An implementation typically also implements <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy"/>.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework.CanHandleDependency(Metalama.Extensions.DependencyInjection.DependencyProperties,Metalama.Framework.Diagnostics.ScopedDiagnosticSink@)">
+            <summary>
+            Determines whether the current instance can handle a <see cref="T:Metalama.Extensions.DependencyInjection.DependencyAttribute"/> aspect or <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/> advice.
+            </summary>
+            <param name="properties"> <see cref="T:Metalama.Extensions.DependencyInjection.DependencyProperties"/> or <see cref="T:Metalama.Extensions.DependencyInjection.DependencyProperties"/>.</param>
+            <param name="diagnostics">A <see cref="T:Metalama.Framework.Diagnostics.ScopedDiagnosticSink"/>.</param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework.IntroduceDependency(Metalama.Extensions.DependencyInjection.DependencyProperties,Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.INamedType})">
+            <summary>
+            Processes the <see cref="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute"/> advice, i.e. introduce a dependency defined by a custom aspect into the target
+            type of the aspect.
+            </summary>
+            <param name="properties">Information regarding the dependency to inject.</param>
+            <param name="adviser">An <see cref="T:Metalama.Framework.Aspects.IAspectBuilder`1"/> for the target type.</param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.IDependencyInjectionFramework.TryImplementDependency(Metalama.Extensions.DependencyInjection.DependencyProperties,Metalama.Framework.Advising.IAdviser{Metalama.Framework.Code.IFieldOrProperty})">
+            <summary>
+            Processes the <see cref="T:Metalama.Extensions.DependencyInjection.DependencyAttribute"/> aspect, i.e. changes the target field or property of the aspect into a dependency. 
+            </summary>
+            <param name="properties">Information regarding the dependency to inject.</param>
+            <param name="adviser">The <see cref="T:Metalama.Framework.Aspects.IAspectBuilder`1"/> for the field or property to pull.</param>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy">
+            <summary>
+            Interface used by <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy"/> to pull a field or property from the constructor.
+            This interface is instantiated from <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.DefaultDependencyInjectionStrategy.GetPullStrategy(Metalama.Framework.Code.IFieldOrProperty)"/>. You must override this method
+            if you want to provide a custom implementation of <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy"/>. The default implementation is <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.DefaultPullStrategy"/>.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy.GetExistingParameter(Metalama.Framework.Code.IConstructor)">
+            <summary>
+            Gets a parameter from which the dependency can be initialized, or <c>null</c> if a new parameter
+            must be created.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy.GetNewParameter(Metalama.Framework.Code.IConstructor)">
+            <summary>
+            Gets the specifications from which a constructor parameter can be constructed. This method is called when <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy.GetExistingParameter(Metalama.Framework.Code.IConstructor)"/>
+            returns <c>null</c>.
+            </summary>
+            <param name="constructor">The constructor into which the parameter will be added.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy.PullParameter(Metalama.Framework.Code.IParameter,Metalama.Framework.Code.IConstructor)">
+            <summary>
+            Returns a <see cref="T:Metalama.Framework.Advising.PullAction"/> that instructs how a given constructor parameter should be pulled from another constructor.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy.GetAssignmentStatement(Metalama.Framework.Code.IParameter)">
+            <summary>
+            Gets a statement that assigns the dependency field or property from a parameter or another expression.
+            </summary>
+            <param name="existingParameter">The value returned by <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy.GetExistingParameter(Metalama.Framework.Code.IConstructor)"/> or <see cref="M:Metalama.Extensions.DependencyInjection.Implementation.IPullStrategy.GetNewParameter(Metalama.Framework.Code.IConstructor)"/>.</param>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.Implementation.LazyDependencyInjectionStrategy">
+            <summary>
+            A dependency implementation strategy that resolves the dependencies the first time they are used and pull a <see cref="T:System.Func`1"/>
+            from the constructor.
+            </summary>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.Implementation.ParameterSpecification">
+            <summary>
+            Specifies a constructor parameter.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.ParameterSpecification.Name">
+            <summary>
+            Gets the parameter name.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.ParameterSpecification.Type">
+            <summary>
+            Gets the parameter type.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.Implementation.ParameterSpecification.Attributes">
+            <summary>
+            Gets the list of custom attributes of the parameters.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.ParameterSpecification.#ctor(System.String,Metalama.Framework.Code.IType,System.Collections.Immutable.ImmutableArray{Metalama.Framework.Code.DeclarationBuilders.AttributeConstruction})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Metalama.Extensions.DependencyInjection.Implementation.ParameterSpecification"/> struct.
+            </summary>
+            <param name="name">Parameter name.</param>
+            <param name="type">Parameter type.</param>
+            <param name="attributes">List of custom attributes of the parameter.</param>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.SuppressionHelper.SuppressNonNullableFieldMustContainValue(Metalama.Framework.Advising.IAdviser,Metalama.Framework.Code.IFieldOrProperty,System.Collections.Generic.IEnumerable{Metalama.Framework.Code.IConstructor})">
+            <summary>
+            Suppresses the warning CS8618 ("Non-nullable variable must contain a non-null value when exiting constructor.") on selected constructors for a member that is being introduced,
+            if necessary. This is useful for design-time diagnostics.
+            </summary>
+        </member>
+        <member name="M:Metalama.Extensions.DependencyInjection.Implementation.SuppressionHelper.SuppressUnusedWarnings(Metalama.Framework.Advising.IAdviser,Metalama.Framework.Code.IFieldOrProperty)">
+            <summary>
+            Suppress the warning CS0169 ("The private field is never used.") on a member that is being introduced.
+            This is primarily useful for design-time.
+            </summary>
+        </member>
+        <member name="T:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute">
+            <summary>
+            Custom attribute that, when be applied to a field or automatic property of an aspect, means that this field or property is a service dependency
+            that introduced into the target type and handled by a dependency injection framework. Contrarily to <see cref="T:Metalama.Extensions.DependencyInjection.DependencyAttribute"/> that can be used
+            in user code, this attribute can be used only in an aspect. 
+            </summary>
+            <remarks>
+             The implementation of this custom attribute depends on the selected dependency injection framework.
+            </remarks>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute.IsLazy">
+            <summary>
+            Gets or sets a value indicating whether the dependency should be pulled from the container lazily, i.e. upon first use.
+            </summary>
+        </member>
+        <member name="P:Metalama.Extensions.DependencyInjection.IntroduceDependencyAttribute.IsRequired">
+            <summary>
+            Gets or sets a value indicating whether the dependency is required.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute">
+            <summary>
+            Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
+            </summary>
+        </member>
+        <member name="P:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.FeatureName">
+            <summary>
+            The name of the compiler feature.
+            </summary>
+        </member>
+        <member name="P:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.IsOptional">
+            <summary>
+            If true, the compiler can choose to allow access to the location where this attribute is applied if it does not understand <see cref="P:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.FeatureName"/>.
+            </summary>
+        </member>
+        <member name="F:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.RefStructs">
+            <summary>
+            The <see cref="P:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.FeatureName"/> used for the ref structs C# feature.
+            </summary>
+        </member>
+        <member name="F:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.RequiredMembers">
+            <summary>
+            The <see cref="P:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.FeatureName"/> used for the required members C# feature.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.IsExternalInit">
+            <summary>
+            Reserved to be used by the compiler for tracking metadata.
+            This class should not be used by developers in source code.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.RequiredMemberAttribute">
+            <summary>Specifies that a type has required members or that a member is required.</summary>
+        </member>
+        <member name="T:System.Index">
+            <summary>Represent a type can be used to index a collection either from the start or the end.</summary>
+            <remarks>
+            Index is used by the C# compiler to support the new index syntax
+            <code>
+            int[] someArray = new int[5] { 1, 2, 3, 4, 5 } ;
+            int lastElement = someArray[^1]; // lastElement = 5
+            </code>
+            </remarks>
+        </member>
+        <member name="M:System.Index.#ctor(System.Int32,System.Boolean)">
+            <summary>Construct an Index using a value and indicating if the index is from the start or from the end.</summary>
+            <param name="value">The index value. it has to be zero or positive number.</param>
+            <param name="fromEnd">Indicating if the index is from the start or from the end.</param>
+            <remarks>
+            If the Index constructed from the end, index value 1 means pointing at the last element and index value 0 means pointing at beyond last element.
+            </remarks>
+        </member>
+        <member name="P:System.Index.Start">
+            <summary>Create an Index pointing at first element.</summary>
+        </member>
+        <member name="P:System.Index.End">
+            <summary>Create an Index pointing at beyond last element.</summary>
+        </member>
+        <member name="M:System.Index.FromStart(System.Int32)">
+            <summary>Create an Index from the start at the position indicated by the value.</summary>
+            <param name="value">The index value from the start.</param>
+        </member>
+        <member name="M:System.Index.FromEnd(System.Int32)">
+            <summary>Create an Index from the end at the position indicated by the value.</summary>
+            <param name="value">The index value from the end.</param>
+        </member>
+        <member name="P:System.Index.Value">
+            <summary>Returns the index value.</summary>
+        </member>
+        <member name="P:System.Index.IsFromEnd">
+            <summary>Indicates whether the index is from the start or the end.</summary>
+        </member>
+        <member name="M:System.Index.GetOffset(System.Int32)">
+            <summary>Calculate the offset from the start using the giving collection length.</summary>
+            <param name="length">The length of the collection that the Index will be used with. length has to be a positive value</param>
+            <remarks>
+            For performance reason, we don't validate the input length parameter and the returned offset value against negative values.
+            we don't validate either the returned offset is greater than the input length.
+            It is expected Index will be used with collections which always have non negative length/count. If the returned offset is negative and
+            then used to index a collection will get out of range exception which will be same affect as the validation.
+            </remarks>
+        </member>
+        <member name="M:System.Index.Equals(System.Object)">
+            <summary>Indicates whether the current Index object is equal to another object of the same type.</summary>
+            <param name="value">An object to compare with this object</param>
+        </member>
+        <member name="M:System.Index.Equals(System.Index)">
+            <summary>Indicates whether the current Index object is equal to another Index object.</summary>
+            <param name="other">An object to compare with this object</param>
+        </member>
+        <member name="M:System.Index.GetHashCode">
+            <summary>Returns the hash code for this instance.</summary>
+        </member>
+        <member name="M:System.Index.op_Implicit(System.Int32)~System.Index">
+            <summary>Converts integer number to an Index.</summary>
+        </member>
+        <member name="M:System.Index.ToString">
+            <summary>Converts the value of the current Index object to its equivalent string representation.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute">
+            <summary>Specifies that null is allowed as an input even if the corresponding type disallows it.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.DisallowNullAttribute">
+            <summary>Specifies that null is disallowed as an input even if the corresponding type allows it.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.MaybeNullAttribute">
+            <summary>Specifies that an output may be null even if the corresponding type disallows it.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.NotNullAttribute">
+            <summary>Specifies that an output will not be null even if the corresponding type allows it. Specifies that an input argument was not null when the call returns.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute">
+            <summary>Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue"/>, the parameter may be null even if the corresponding type disallows it.</summary>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.#ctor(System.Boolean)">
+            <summary>Initializes the attribute with the specified return value condition.</summary>
+            <param name="returnValue">
+            The return value condition. If the method returns this value, the associated parameter may be null.
+            </param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue">
+            <summary>Gets the return value condition.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute">
+            <summary>Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue"/>, the parameter will not be null even if the corresponding type allows it.</summary>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.#ctor(System.Boolean)">
+            <summary>Initializes the attribute with the specified return value condition.</summary>
+            <param name="returnValue">
+            The return value condition. If the method returns this value, the associated parameter will not be null.
+            </param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue">
+            <summary>Gets the return value condition.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute">
+            <summary>Specifies that the output will be non-null if the named parameter is non-null.</summary>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute.#ctor(System.String)">
+            <summary>Initializes the attribute with the associated parameter name.</summary>
+            <param name="parameterName">
+            The associated parameter name.  The output will be non-null if the argument to the parameter specified is non-null.
+            </param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute.ParameterName">
+            <summary>Gets the associated parameter name.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute">
+            <summary>Applied to a method that will never return under any circumstance.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute">
+            <summary>Specifies that the method will not return if the associated Boolean parameter is passed the specified value.</summary>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute.#ctor(System.Boolean)">
+            <summary>Initializes the attribute with the specified parameter value.</summary>
+            <param name="parameterValue">
+            The condition parameter value. Code after the method will be considered unreachable by diagnostics if the argument to
+            the associated parameter matches this value.
+            </param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute.ParameterValue">
+            <summary>Gets the condition parameter value.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.MemberNotNullAttribute">
+            <summary>Specifies that the method or property will ensure that the listed field and property members have not-null values.</summary>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.MemberNotNullAttribute.#ctor(System.String)">
+            <summary>Initializes the attribute with a field or property member.</summary>
+            <param name="member">
+            The field or property member that is promised to be not-null.
+            </param>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.MemberNotNullAttribute.#ctor(System.String[])">
+            <summary>Initializes the attribute with the list of field and property members.</summary>
+            <param name="members">
+            The list of field and property members that are promised to be not-null.
+            </param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.MemberNotNullAttribute.Members">
+            <summary>Gets field or property member names.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute">
+            <summary>Specifies that the method or property will ensure that the listed field and property members have not-null values when returning with the specified return value condition.</summary>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.#ctor(System.Boolean,System.String)">
+            <summary>Initializes the attribute with the specified return value condition and a field or property member.</summary>
+            <param name="returnValue">
+            The return value condition. If the method returns this value, the associated parameter will not be null.
+            </param>
+            <param name="member">
+            The field or property member that is promised to be not-null.
+            </param>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.#ctor(System.Boolean,System.String[])">
+            <summary>Initializes the attribute with the specified return value condition and list of field and property members.</summary>
+            <param name="returnValue">
+            The return value condition. If the method returns this value, the associated parameter will not be null.
+            </param>
+            <param name="members">
+            The list of field and property members that are promised to be not-null.
+            </param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.ReturnValue">
+            <summary>Gets the return value condition.</summary>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.Members">
+            <summary>Gets field or property member names.</summary>
+        </member>
+        <member name="T:System.Range">
+            <summary>Represent a range has start and end indexes.</summary>
+            <remarks>
+            Range is used by the C# compiler to support the range syntax.
+            <code>
+            int[] someArray = new int[5] { 1, 2, 3, 4, 5 };
+            int[] subArray1 = someArray[0..2]; // { 1, 2 }
+            int[] subArray2 = someArray[1..^0]; // { 2, 3, 4, 5 }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:System.Range.Start">
+            <summary>Represent the inclusive start index of the Range.</summary>
+        </member>
+        <member name="P:System.Range.End">
+            <summary>Represent the exclusive end index of the Range.</summary>
+        </member>
+        <member name="M:System.Range.#ctor(System.Index,System.Index)">
+            <summary>Construct a Range object using the start and end indexes.</summary>
+            <param name="start">Represent the inclusive start index of the range.</param>
+            <param name="end">Represent the exclusive end index of the range.</param>
+        </member>
+        <member name="M:System.Range.Equals(System.Object)">
+            <summary>Indicates whether the current Range object is equal to another object of the same type.</summary>
+            <param name="value">An object to compare with this object</param>
+        </member>
+        <member name="M:System.Range.Equals(System.Range)">
+            <summary>Indicates whether the current Range object is equal to another Range object.</summary>
+            <param name="other">An object to compare with this object</param>
+        </member>
+        <member name="M:System.Range.GetHashCode">
+            <summary>Returns the hash code for this instance.</summary>
+        </member>
+        <member name="M:System.Range.ToString">
+            <summary>Converts the value of the current Range object to its equivalent string representation.</summary>
+        </member>
+        <member name="M:System.Range.StartAt(System.Index)">
+            <summary>Create a Range object starting from start index to the end of the collection.</summary>
+        </member>
+        <member name="M:System.Range.EndAt(System.Index)">
+            <summary>Create a Range object starting from first element in the collection to the end Index.</summary>
+        </member>
+        <member name="P:System.Range.All">
+            <summary>Create a Range object starting from first element to the end.</summary>
+        </member>
+        <member name="M:System.Range.GetOffsetAndLength(System.Int32)">
+            <summary>Calculate the start offset and length of range object using a collection length.</summary>
+            <param name="length">The length of the collection that the range will be used with. length has to be a positive value.</param>
+            <remarks>
+            For performance reason, we don't validate the input length parameter against negative values.
+            It is expected Range will be used with collections which always have non negative length/count.
+            We validate the range is inside the length scope though.
+            </remarks>
+        </member>
+    </members>
+</doc>

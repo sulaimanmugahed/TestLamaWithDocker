@@ -1,0 +1,64 @@
+﻿<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information. -->
+
+<!--
+<Metalama>
+  Originally, this file is named Microsoft.Net.Compilers.Toolset.props and it's been located in ..\build folder. 
+  The renaming is done because NuGet requires the .props file to be named equaly to the containing NuGet package to be imported automatically.
+</Metalama>
+ -->
+
+<Project>
+
+  <PropertyGroup>
+    <!-- <Metalama> Added .Net version switch -->
+    <!-- this version does not work on .Net SDK versions strictly less than 6.0.300 -->
+    <!-- <_MetalamaBuildRuntimeVersion>$([System.Environment]::Version)</_MetalamaBuildRuntimeVersion> -->
+
+    <_MetalamaBuildRuntimeDescription>$([System.Runtime.InteropServices.RuntimeInformation]::FrameworkDescription)</_MetalamaBuildRuntimeDescription>
+    <_MetalamaBuildRuntimeVersion>$([System.Text.RegularExpressions.Regex]::Match($(_MetalamaBuildRuntimeDescription), '\d+(\.\d+)+').Value)</_MetalamaBuildRuntimeVersion>
+    
+    <_RoslynTargetDirectoryName Condition="'$(MSBuildRuntimeType)' == 'Core' AND '$(_MetalamaBuildRuntimeVersion)' &lt; '9'">net8.0</_RoslynTargetDirectoryName>
+    <_RoslynTargetDirectoryName Condition="'$(MSBuildRuntimeType)' == 'Core' AND '$(_MetalamaBuildRuntimeVersion)' &gt;= '9'">net9.0</_RoslynTargetDirectoryName>
+    <!-- </Metalama> -->
+    <_RoslynTargetDirectoryName Condition="'$(MSBuildRuntimeType)' != 'Core'">net472</_RoslynTargetDirectoryName>
+    <_RoslynTasksDirectory>$(MSBuildThisFileDirectory)..\tasks\$(_RoslynTargetDirectoryName)\</_RoslynTasksDirectory>
+    <RoslynTasksAssembly>$(_RoslynTasksDirectory)Microsoft.Build.Tasks.CodeAnalysis.dll</RoslynTasksAssembly>
+    <UseSharedCompilation Condition="'$(UseSharedCompilation)' == ''">true</UseSharedCompilation>
+    <CSharpCoreTargetsPath>$(_RoslynTasksDirectory)Microsoft.CSharp.Core.targets</CSharpCoreTargetsPath>
+    <VisualBasicCoreTargetsPath>$(_RoslynTasksDirectory)Microsoft.VisualBasic.Core.targets</VisualBasicCoreTargetsPath>
+  </PropertyGroup>
+
+  <UsingTask TaskName="Microsoft.CodeAnalysis.BuildTasks.Csc" AssemblyFile="$(RoslynTasksAssembly)" />
+  <UsingTask TaskName="Microsoft.CodeAnalysis.BuildTasks.Vbc" AssemblyFile="$(RoslynTasksAssembly)" />
+  <UsingTask TaskName="Microsoft.CodeAnalysis.BuildTasks.CopyRefAssembly" AssemblyFile="$(RoslynTasksAssembly)" />
+
+  <!-- <Metalama> -->
+  <PropertyGroup>
+    <WarningsAsErrors>$(WarningsAsErrors);LAMA0621</WarningsAsErrors>
+
+    <!--
+      Disable torn SDK handling (see https://github.com/dotnet/sdk/blob/main/documentation/general/torn-sdk.md).
+      When an older version of MSBuild is used with a newer .Net SDK 9+, the SDK will download and attempt to use its own version of Csc.
+      Metalama.Compiler takes priority (because its <UsingTask> is processed first), so torn SDK handling does nothing.
+      We disable it anyway, but it's just to avoid an unnecessary package download.
+      -->
+    <BuildWithNetFrameworkHostedCompiler>false</BuildWithNetFrameworkHostedCompiler>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <CompilerVisibleProperty Include="MetalamaDebugTransformedCode" />
+    <CompilerVisibleProperty Include="MetalamaCompilerTransformerOrder" />
+    <CompilerVisibleProperty Include="MetalamaCompilerTransformedFilesOutputPath" />
+    <CompilerVisibleProperty Include="MetalamaDebugCompiler" />
+    <CompilerVisibleProperty Include="MetalamaTransformedCodeAnalyzers" />
+    <CompilerVisibleProperty Include="MetalamaLicense" />
+    <CompilerVisibleProperty Include="NETCoreSdkBundledVersionsProps" />
+    <CompilerVisibleProperty Include="MSBuildProjectFullPath "/>
+
+    <MetalamaTransformedCodeAnalyzer Include="Microsoft.CodeAnalysis.CSharp.RemoveUnusedMembers" />
+    <MetalamaTransformedCodeAnalyzer Include="Microsoft.CodeAnalysis.CSharp.RemoveUnusedParametersAndValues" />
+    <MetalamaTransformedCodeAnalyzer Include="Microsoft.CodeQuality.Analyzers.Maintainability.AvoidUnusedPrivateFieldsAnalyzer" />
+  </ItemGroup>
+  <!-- </Metalama> -->
+  
+</Project>

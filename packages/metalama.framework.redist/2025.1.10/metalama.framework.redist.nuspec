@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Metalama.Framework.Redist</id>
+    <version>2025.1.10</version>
+    <authors>PostSharp Technologies and contributors</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>metalama.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/metalama/Metalama</projectUrl>
+    <description>Redistributable components for package 'Metalama.Framework'. This package should only be installed as a dependency.
+            (This is not the package you are looking for.)</description>
+    <releaseNotes>https://github.com/orgs/metalama/discussions/categories/changelog</releaseNotes>
+    <tags>metalama</tags>
+    <repository type="git" url="https://github.com/metalama/Metalama" branch="refs/heads/release/2025.1" commit="ac46aa6e4e302ca48856e239f32a69dd9dd49049" />
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="System.Collections.Immutable" version="6.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.Bcl.HashCode" version="1.1.1" exclude="Build,Analyzers" />
+        <dependency id="System.Collections.Immutable" version="6.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

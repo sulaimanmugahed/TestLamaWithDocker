@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Metalama.Compiler</id>
+    <version>2025.1.6</version>
+    <authors>PostSharp Technologies</authors>
+    <developmentDependency>true</developmentDependency>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">LICENSE.md</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>metalama.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/postsharp/Metalama</projectUrl>
+    <description>A fork of the Roslyn compiler that adds an extension point allowing for syntax tree transformations. This fork is used by the Metalama framework.</description>
+    <copyright>© SharpCrafters s.r.o. All rights reserved.</copyright>
+    <tags>PostSharp Metalama</tags>
+    <serviceable>true</serviceable>
+    <repository type="git" url="https://github.com/postsharp/Metalama" branch="refs/heads/develop/2025.1" commit="950f122b6eccf2822d627de25c2727a7eda4e165" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2" />
+      <group targetFramework="net8.0" />
+      <group targetFramework="net9.0" />
+    </dependencies>
+    <contentFiles>
+      <files include="any/net472/build/Metalama.Compiler.props" buildAction="Content" />
+      <files include="any/net8.0/build/Metalama.Compiler.props" buildAction="Content" />
+      <files include="any/net9.0/build/Metalama.Compiler.props" buildAction="Content" />
+      <files include="any/net472/build/Metalama.Compiler.targets" buildAction="Content" />
+      <files include="any/net8.0/build/Metalama.Compiler.targets" buildAction="Content" />
+      <files include="any/net9.0/build/Metalama.Compiler.targets" buildAction="Content" />
+      <files include="any/net472/buildMultiTargeting/Metalama.Compiler.props" buildAction="Content" />
+      <files include="any/net8.0/buildMultiTargeting/Metalama.Compiler.props" buildAction="Content" />
+      <files include="any/net9.0/buildMultiTargeting/Metalama.Compiler.props" buildAction="Content" />
+    </contentFiles>
+  </metadata>
+</package>

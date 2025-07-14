@@ -1,0 +1,16 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+services:
+  testlamawithdocker:
+    # image: testlamawithdocker
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5010
+    ports:
+      - 5010:5010
+    # volumes:
+    #   - ./metalama-logs:/tmp/Metalama
+

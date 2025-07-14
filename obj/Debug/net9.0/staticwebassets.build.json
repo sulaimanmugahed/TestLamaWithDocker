@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "JvQ6ODVVnpJnR8NYC0Icaxr3VExkCMdqhmErx07NL28=",
+  "Source": "TestLamaWithDocker",
+  "BasePath": "_content/TestLamaWithDocker",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

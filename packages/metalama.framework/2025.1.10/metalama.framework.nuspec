@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Metalama.Framework</id>
+    <version>2025.1.10</version>
+    <authors>PostSharp Technologies and contributors</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>metalama.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/metalama/Metalama</projectUrl>
+    <description>A Roslyn-based meta-programming framework for code generation, architecture validation and aspect-oriented programming in C#.</description>
+    <releaseNotes>https://github.com/orgs/metalama/discussions/categories/changelog</releaseNotes>
+    <tags>metalama</tags>
+    <repository type="git" url="https://github.com/metalama/Metalama" commit="ac46aa6e4e302ca48856e239f32a69dd9dd49049" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Metalama.Framework.Redist" version="2025.1.10" include="All" />
+        <dependency id="Metalama.Compiler" version="2025.1.6" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.CSharp" version="4.7.0" include="All" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

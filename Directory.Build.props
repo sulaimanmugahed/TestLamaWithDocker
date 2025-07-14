@@ -1,0 +1,19 @@
+<Project>
+
+    <PropertyGroup>
+        <!-- Intentionally removing any ambiant license key to make sure that we can build without one. -->
+        <MetalamaIgnoreMetalamaIgnoreUserLicenses>True</MetalamaIgnoreMetalamaIgnoreUserLicenses>
+    </PropertyGroup>
+
+
+    <!-- <Import Sdk="PostSharp.Engineering.Sdk" Project="BuildOptions.props"/>
+    <Import Sdk="PostSharp.Engineering.Sdk" Project="SourceLink.props"/>
+
+    <PropertyGroup>
+        <NoWarn>LAMA0048;CA1050;LAMA0066</NoWarn>
+
+        <IsPackable>False</IsPackable>
+
+    </PropertyGroup> -->
+
+</Project>
