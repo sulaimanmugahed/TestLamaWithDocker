@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TestLamaWithDocker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c3d9810e11f470e04cc577ffa6c8db4687d43b0")]
 [assembly: System.Reflection.AssemblyProductAttribute("TestLamaWithDocker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TestLamaWithDocker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

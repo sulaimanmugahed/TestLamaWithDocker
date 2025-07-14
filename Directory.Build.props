@@ -3,6 +3,9 @@
     <PropertyGroup>
         <!-- Intentionally removing any ambiant license key to make sure that we can build without one. -->
         <MetalamaIgnoreMetalamaIgnoreUserLicenses>True</MetalamaIgnoreMetalamaIgnoreUserLicenses>
+        <!-- <MetalamaDesignTimeEnabled>False</MetalamaDesignTimeEnabled>
+  <MetalamaConcurrentBuildEnabled>False</MetalamaConcurrentBuildEnabled> -->
+
     </PropertyGroup>
 
 

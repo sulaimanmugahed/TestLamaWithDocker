@@ -3,9 +3,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <MetalamaTimeoutMilliseconds>300000</MetalamaTimeoutMilliseconds>
-    <MetalamaEnableBuildServer>false</MetalamaEnableBuildServer>
-    <MetalamaEnabled>false</MetalamaEnabled>
+
+
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Metalama.Extensions.DependencyInjection" Version="2025.1.10" />

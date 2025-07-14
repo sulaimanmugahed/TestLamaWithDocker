@@ -2,15 +2,15 @@
 
 services:
   testlamawithdocker:
-    # image: testlamawithdocker
+    image: testlamawithdocker
     build:
       context: .
       dockerfile: ./Dockerfile
+      no_cache: true
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5010
     ports:
       - 5010:5010
-    # volumes:
-    #   - ./metalama-logs:/tmp/Metalama
+
 

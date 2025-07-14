@@ -4,16 +4,18 @@ EXPOSE 5010
 
 ENV ASPNETCORE_URLS=http://+:5010
 
+
+
 USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG configuration=Release
 WORKDIR /src
 COPY ["TestLamaWithDocker.csproj", "./"]
-# RUN dotnet restore "TestLamaWithDocker.csproj" -p:ExcludeMetalama=true
+
 
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "TestLamaWithDocker.csproj" -p:ExcludeMetalama=true -c $configuration --packages ./packages  -o /app/build
+RUN dotnet build "TestLamaWithDocker.csproj" /t:rebuild -c $configuration --packages ./packages  -o /app/build
 
 FROM build AS publish
 ARG configuration=Release
